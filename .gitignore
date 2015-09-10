@@ -5,6 +5,8 @@
 .idea/codeStyleSettings.xml
 .idea/runConfigurations.xml
 
+./_nsdb_root
+
 vendor/
 target/
 
