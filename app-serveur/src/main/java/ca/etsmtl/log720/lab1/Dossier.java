@@ -2,36 +2,54 @@ package ca.etsmtl.log720.lab1;
 
 public class Dossier extends DossierPOA {
 
+    private int _id;
+    private String _nom;
+    private String _noPermis;
+    private String _noPlaque;
+    private String _prenom;
+    private int _niveau;
+    private CollectionInfractions _infractions = new CollectionInfractions();
+    private CollectionReactions _reactions = new CollectionReactions();
+
+    public Dossier(int id, String nom, String noPermis, String noPlaque, String prenom, int niveau) {
+        _id = id;
+        _nom = nom;
+        _noPermis = noPermis;
+        _noPlaque = noPlaque;
+        _prenom = prenom;
+        _niveau = niveau;
+    }
+
     public int id() {
-        return 0;
+        return _id;
     }
 
     public String nom() {
-        return null;
+        return _nom;
     }
 
     public String noPermis() {
-        return null;
+        return _noPermis;
     }
 
     public String noPlaque() {
-        return null;
+        return _noPlaque;
     }
 
     public String prenom() {
-        return null;
+        return _prenom;
     }
 
     public int niveau() {
-        return 0;
+        return _niveau;
     }
 
     public int[] getListeInfraction() {
-        return new int[0];
+        return null; // TODO
     }
 
     public int[] getListeReaction() {
-        return new int[0];
+        return null; // TODO
     }
 
     public void ajouterReactionAListe(int idReaction) {

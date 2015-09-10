@@ -12,7 +12,7 @@ public class CollectionReactions extends CollectionReactionPOA {
             org.omg.CORBA.Object obj = Serveur._poa.servant_to_reference(reaction);
             return ReactionHelper.narrow(obj);
         } catch (Exception e) {
-            System.err.println(String.format("Erreur lors du retour du dossier: %s", e));
+            System.err.println(String.format("Erreur lors du retour de la reaction: %s", e));
             return null;
         }
     }

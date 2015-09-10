@@ -11,7 +11,7 @@ public class CollectionInfractions extends CollectionInfractionPOA {
             org.omg.CORBA.Object obj = Serveur._poa.servant_to_reference(infraction);
             return InfractionHelper.narrow(obj);
         } catch (Exception e) {
-            System.err.println(String.format("Erreur lors du retour du dossier: %s", e));
+            System.err.println(String.format("Erreur lors du retour de l'infraction: %s", e));
             return null;
         }
     }
