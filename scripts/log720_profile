@@ -12,8 +12,12 @@ export PATH="$MAVEN_HOME/bin:$PATH"
 export JACORB_HOME="$PWD/vendor/jacorb-3.6.1"
 export PATH="$JACORB_HOME/bin:$PATH"
 
+# Jacorb configuration files
+export JACORB_CONFIGS_PATH="$PWD/config"
+
 # Configuration classpath
-# We good
+export CLASSPATH="."
+export CLASSPATH="$JACORB_CONFIGS_PATH:$CLASSPATH"
 
 # Remplace des configurations utilisateurs par les configurations du projet
 mvn -gs ./scripts/settings.xml -v
