@@ -9,5 +9,6 @@
 
 vendor/
 target/
+temp/
 
 .DS_Store
