@@ -1,19 +1,29 @@
 package ca.etsmtl.log720.lab1;
 
 public class Infraction extends InfractionPOA {
+    private int _id;
+    private String _description;
+    private int _niveau;
+
+    public Infraction(int id, String description, int niveau) {
+        _id = id;
+        _description = description;
+        _niveau = niveau;
+    }
+
     public int id() {
-        return 0;
+        return _id;
     }
 
     public String description() {
-        return null;
+        return _description;
     }
 
     public int niveau() {
-        return 0;
+        return _niveau;
     }
 
     public String _toString() {
-        return null;
+        return String.format("%d - %d - %s", id(), niveau(), description());
     }
 }

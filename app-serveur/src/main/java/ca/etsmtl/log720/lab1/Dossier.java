@@ -53,14 +53,14 @@ public class Dossier extends DossierPOA {
     }
 
     public void ajouterReactionAListe(int idReaction) {
-
+        // TODO
     }
 
     public void ajouterInfractionAListe(int idInfraction) {
-
+        // TODO
     }
 
     public String _toString() {
-        return null;
+        return String.format("%d - %d - %s", id(), niveau(), nom()); // TODO: improve this
     }
 }
