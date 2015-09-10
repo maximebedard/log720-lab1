@@ -1,8 +1,20 @@
 package ca.etsmtl.log720.lab1;
 
-public interface BanqueInfractions {
-    void ajouterInfraction(String description, int niveau);
-    CollectionInfractions trouverInfractionsParDossier(Dossier dossier);
-    Infraction trouverInfractionsParId(int id);
-    CollectionInfractions infractions();
+public class BanqueInfractions extends BanqueInfractionsPOA {
+
+    public CollectionInfraction infractions() {
+        return null;
+    }
+
+    public CollectionInfraction trouverInfractionsParDossier(Dossier mydossier) {
+        return null;
+    }
+
+    public Infraction trouverInfractionParId(int idInfraction) {
+        return null;
+    }
+
+    public void ajouterInfraction(String description, int niveau) throws NiveauHorsBornesException {
+
+    }
 }

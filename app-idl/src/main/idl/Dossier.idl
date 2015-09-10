@@ -24,14 +24,14 @@ module ca
           void ajouterReactionAListe(in long idReaction);
           void ajouterInfractionAListe(in long idInfraction);
           string toString();
-        };      
+        };
 
         interface CollectionDossier
         {
           Dossier getDossier(in long index);
           readonly attribute long size;
         };
-        
+
         interface BanqueDossiers
         {
           readonly attribute CollectionDossier dossiers;

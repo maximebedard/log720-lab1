@@ -1,15 +1,48 @@
 package ca.etsmtl.log720.lab1;
 
-public interface Dossier {
-    int id();
-    String nom();
-    String noPermis();
-    String noPlaque();
-    String prenom();
-    int niveau();
-    int[] getListeInfraction();
-    int[] getListeReaction();
-    void ajouterReactionAuDossier(int idReaction);
-    void ajouterInfractionAuDossier(int idInfraction);
-    String toString();
+public class Dossier extends DossierPOA {
+
+    public int id() {
+        return 0;
+    }
+
+    public String nom() {
+        return null;
+    }
+
+    public String noPermis() {
+        return null;
+    }
+
+    public String noPlaque() {
+        return null;
+    }
+
+    public String prenom() {
+        return null;
+    }
+
+    public int niveau() {
+        return 0;
+    }
+
+    public int[] getListeInfraction() {
+        return new int[0];
+    }
+
+    public int[] getListeReaction() {
+        return new int[0];
+    }
+
+    public void ajouterReactionAListe(int idReaction) {
+
+    }
+
+    public void ajouterInfractionAListe(int idInfraction) {
+
+    }
+
+    public String _toString() {
+        return null;
+    }
 }

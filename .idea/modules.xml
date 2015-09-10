@@ -2,6 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/app-bureau/app-bureau.iml" filepath="$PROJECT_DIR$/app-bureau/app-bureau.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-idl/app-idl.iml" filepath="$PROJECT_DIR$/app-idl/app-idl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-serveur/app-serveur.iml" filepath="$PROJECT_DIR$/app-serveur/app-serveur.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app-voiture/app-voiture.iml" filepath="$PROJECT_DIR$/app-voiture/app-voiture.iml" />
       <module fileurl="file://$PROJECT_DIR$/equipe01-log720-a11-lab1.iml" filepath="$PROJECT_DIR$/equipe01-log720-a11-lab1.iml" />
     </modules>
   </component>

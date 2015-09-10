@@ -22,10 +22,17 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="equipe01-log720-a11-lab1" />
+        <module name="app-bureau" />
+        <module name="app-idl" />
+        <module name="app-serveur" />
+        <module name="app-voiture" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="app-bureau" target="1.5" />
+      <module name="app-idl" target="1.5" />
+      <module name="app-serveur" target="1.5" />
+      <module name="app-voiture" target="1.5" />
       <module name="equipe01-log720-a11-lab1" target="1.5" />
     </bytecodeTargetLevel>
   </component>
