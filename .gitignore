@@ -6,5 +6,6 @@
 .idea/runConfigurations.xml
 
 vendor/
+target/
 
 .DS_Store
