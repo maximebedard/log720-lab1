@@ -14,4 +14,10 @@ unzip -q ~/Downloads/jacorb-3.6.1-binary.zip -d ./vendor
 
 # Configure profile
 source ~/scripts/log720_profile
+
+# Running all the things (Open all in different sessions)
+./bin/naming.sh
+./bin/serveur.sh
+./bin/bureau.sh
+./bin/voiture.sh
 ```
