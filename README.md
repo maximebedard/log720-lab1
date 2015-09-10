@@ -15,6 +15,9 @@ unzip -q ~/Downloads/jacorb-3.6.1-binary.zip -d ./vendor
 # Configure profile
 source ~/scripts/log720_profile
 
-# Build all the things
-mvn compile
+# Run the ClientBureau app
+mvn compile exec:clientBureau
+
+# Run the ClientVoiture app
+mvn compile exec:clientVoiture
 ```
