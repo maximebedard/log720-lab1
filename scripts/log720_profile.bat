@@ -80,13 +80,13 @@ set JACORB_HOME=C:\jacorb\2.3.1_x64
 
 :: Endroit ou vous stockez orb.properties et jacorb.properties. Est ajoute dans
 :: le classpath plus bas. j:\ est un endroit plausible et pratique dans les labs
-:: de l'ETS. 
+:: de l'ETS.
 set JACORB_PROPERTIES_DIR=%CONFIG_HOME%
 
 :: path: ajout de la distribution JacORB
 set path=%PATH%;%JACORB_HOME%\bin
 
-:: classpath: ajout du reprtoire ou sont stockes les fichiers de config JacORB 
+:: classpath: ajout du reprtoire ou sont stockes les fichiers de config JacORB
 set CLASSPATH=%JACORB_PROPERTIES_DIR%;%classpath%
 
 :: 5 - Demarrage d'une coquille (shell) a un endroit predetermine ==============
@@ -98,3 +98,6 @@ set START_DIR=\log720\grid_rc_modules\scripts\dos
 
 %START_DRIVE%
 call C:\WINDOWS\system32\cmd.exe /k cd %START_DIR%
+
+:: Assignation du fichier de configuration local de maven
+call mvn -gs .\settings.xml

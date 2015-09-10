@@ -48,10 +48,6 @@ under the License.
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
           http://maven.apache.org/xsd/settings-1.0.0.xsd">
 
-  <!-- Effacez la ligne suivante si vous utilisez ce fichier sur un ordinateur
-       qui n'appartient pas à l'ÉTS. Voir fichier LISEZMOI.html pour les détails. -->
-  <localRepository>${env.MY_MVN_HOME}\repository</localRepository>
-
   <!-- localRepository
    | The path to the local repository maven will use to store artifacts.
    |

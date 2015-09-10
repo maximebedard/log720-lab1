@@ -1,1 +1,0 @@
-call mvn -s %MY_MVN_HOME%\settings.xml %*

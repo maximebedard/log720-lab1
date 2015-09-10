@@ -1,56 +1,19 @@
-# Gabarit de fichier de configuration pour coquille (shell) BASH
-#
-# Ce fichier de configuration est fourni aux etudiants de LOG720 dans le but
-# de faciliter l'utilisation de jacorb sur les plate-forme linux et MacOS.
-# Il ajoute les quatre elements essentiels au bon fonctionnement de jacorb
-# dans votre environnement:
-#
-# - le repertoire bin de l'installation du SDK java (pour javac, java);
-# - le repertoire bin de l'installation d'ant (pour ant);
-# - le repertoire bin de l'installation de jacorb (pour ns, jaco, ...);
-# - le repertoire qui heberge vos fichiers de configuration jacorb,
-#   orb.properties et jacorb.properties.
-#
-# Le script est ecrit de facon modulaire, de telle sorte qu'il est
-# relativement aise de l'adapter a diverses situations (linux et MacOS a
-# l'ETS, linux et MacOS hors ETS, etc).
-#
-# Tel que livre, le script est directement utilisable sur le serveur linux
-# log720.logti.etsmtl.ca utilise pour le cours.
-#
-# Par Roger Champagne, ing., Ph. D.
-# MAJ 2010-Oct-01
-#
-###########################################################################
-#
-# Si la commande java ne fonctionne pas, decommentez une des lignes qui
-# regle JAVA_HOME et la ligne qui ajoute JAVA_HOME au PATH. Assurez-vous
-# que la variable JAVA_HOME reflete votre installation.
-#JAVA_HOME=/usr/lib/jvm/java-6-sun # serveur linux log720
-#JAVA_HOME=     # MACOS a l'ETS: java fonctionne dans bash.
-#PATH=$JAVA_HOME/bin:$PATH
-#
-# Si la commande ant ne fonctionne pas, decommentez une des lignes qui
-# regle ANT_HOME et la ligne qui ajoute ANT_HOME au path. Assurez-vous
-# que la variable ANT_HOME reflete votre installation.
-#ANT_HOME=/opt/apache-ant-1.6.5 # serveur linux log720
-#ANT_HOME=   # MACOS a l'ETS: ant fonctionne dans bash
-#PATH=$ANT_HOME/bin:$PATH
-#
-# Si la commande jaco ne fonctionne pas, decommentez une des lignes qui
-# regle JACORB_HOME et la ligne qui ajoute JACORB_HOME au path. Assurez-vous
-# que la variable JACORB_HOME reflete votre installation.
-#JACORB_HOME=/opt/JacORB/2.3.1   # serveur linux log720
-JACORB_HOME=/Volumes/rchampagne/jacorb-2.3.1   # pas installe sous MACOS a l'ETS
-PATH=$JACORB_HOME/bin:$PATH
-#
-# La ligne suivante sert a ajouter le dossier contenant les fichiers
-# de configuration de jacorb (*orb.properties) dans le classpath. Dans ce
-# gabarit, on utilise le repertoire maison ($HOME), ce que certains
-# deconseillent. Ceci ne fonctionne pas bien sous MacOS, orb.properties est
-# trouve, mais pas jacorb.properties.
-CLASSPATH=.:$HOME
-#
-# La ligne suivante ajoute le repertoire courant (.) dans le PATH, ce qui
-# permet d'executer des scripts sans les preceder de "./" a chaque fois.
-PATH=$PATH:.
+#!/usr/bin/bash
+
+# Configuration jdk
+export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+export PATH="$JAVA_HOME/bin:$PATH"
+
+# Configuration Maven
+export MAVEN_HOME="/usr/local/Cellar/maven/3.3.3/libexec/"
+export PATH="$MAVEN_HOME/bin:$PATH"
+
+# Configuraton Jacorb
+export JACORB_HOME="$PWD/vendor/jacorb-3.6.1"
+export PATH="$JACORB_HOME/bin:$PATH"
+
+# Configuration classpath
+# We good
+
+# Remplace des configurations utilisateurs par les configurations du projet
+mvn -gs ./scripts/settings.xml -v
