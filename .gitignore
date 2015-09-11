@@ -5,10 +5,10 @@
 .idea/codeStyleSettings.xml
 .idea/runConfigurations.xml
 
-./_nsdb_root
+_nsdb_root
+temp
 
 vendor/
 target/
-temp/
 
 .DS_Store
