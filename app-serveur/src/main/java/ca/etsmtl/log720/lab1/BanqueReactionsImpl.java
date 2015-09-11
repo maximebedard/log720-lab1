@@ -1,6 +1,6 @@
 package ca.etsmtl.log720.lab1;
 
-public class BanqueReactions extends BanqueReactionsPOA {
+public class BanqueReactionsImpl extends BanqueReactionsPOA {
     public CollectionReaction reactions() {
         return null;
     }

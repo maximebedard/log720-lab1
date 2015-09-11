@@ -1,6 +1,6 @@
 package ca.etsmtl.log720.lab1;
 
-public class BanqueInfractions extends BanqueInfractionsPOA {
+public class BanqueInfractionsImpl extends BanqueInfractionsPOA {
 
     public CollectionInfraction infractions() {
         return null;

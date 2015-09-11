@@ -1,11 +1,11 @@
 package ca.etsmtl.log720.lab1;
 
-public class Infraction extends InfractionPOA {
+public class InfractionImpl extends InfractionPOA {
     private int _id;
     private String _description;
     private int _niveau;
 
-    public Infraction(int id, String description, int niveau) {
+    public InfractionImpl(int id, String description, int niveau) {
         _id = id;
         _description = description;
         _niveau = niveau;

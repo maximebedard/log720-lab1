@@ -2,13 +2,13 @@ package ca.etsmtl.log720.lab1;
 
 import java.util.ArrayList;
 
-public class CollectionReactions extends CollectionReactionPOA {
-    private ArrayList<Reaction> _reactions = new ArrayList<Reaction>();
+public class CollectionReactionImpl extends CollectionReactionPOA {
+    private ArrayList<ReactionImpl> _reactions = new ArrayList<ReactionImpl>();
 
     public Reaction getReaction(int index) {
 
         try {
-            Reaction reaction = _reactions.get(index);
+            ReactionImpl reaction = _reactions.get(index);
             org.omg.CORBA.Object obj = Serveur._poa.servant_to_reference(reaction);
             return ReactionHelper.narrow(obj);
         } catch (Exception e) {
