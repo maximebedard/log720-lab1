@@ -37,9 +37,13 @@ public class Serveur {
 
     private static HashMap<String, Servant> getServices(){
         HashMap<String, Servant> services = new HashMap<String, Servant>();
-        services.put("BanqueDossiers", new BanqueDossiersImpl());
-        services.put("BanqueInfractions", new BanqueInfractionsImpl());
-        services.put("BanqueReactions", new BanqueReactionsImpl());
+
+        BanqueInfractionsImpl infractions = new BanqueInfractionsImpl();
+        BanqueReactionsImpl reactions = new BanqueReactionsImpl();
+
+        services.put("BanqueDossiers", new BanqueDossiersImpl(reactions, infractions));
+        services.put("BanqueInfractions", infractions);
+        services.put("BanqueReactions", reactions);
         return services;
     }
 }

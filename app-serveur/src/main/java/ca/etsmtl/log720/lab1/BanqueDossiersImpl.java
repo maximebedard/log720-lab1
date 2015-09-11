@@ -2,6 +2,13 @@ package ca.etsmtl.log720.lab1;
 
 public class BanqueDossiersImpl extends BanqueDossiersPOA {
     private CollectionDossierImpl _dossiers = new CollectionDossierImpl();
+    private BanqueReactionsImpl _reactions;
+    private BanqueInfractionsImpl _infractions;
+
+    public BanqueDossiersImpl(BanqueReactionsImpl reactions, BanqueInfractionsImpl infractions){
+        _reactions = reactions;
+        _infractions = infractions;
+    }
 
     public CollectionDossier dossiers() {
         return RemoteObjectHelper.WithError(_dossiers, CollectionDossierHelper::narrow);
@@ -39,7 +46,8 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA {
     }
 
     public void ajouterInfractionAuDossier(int idDossier, int idInfraction) throws InvalidIdException {
-
+        DossierImpl dossier = _dossiers.trouverDossierPar(d -> d.id() == idDossier);
+        //InfractionImpl infraction = _infractions.trouv
     }
 
     public void ajouterReactionAuDossier(int idDossier, int idReaction) throws InvalidIdException {

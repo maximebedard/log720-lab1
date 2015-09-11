@@ -4,6 +4,7 @@ public class InfractionImpl extends InfractionPOA {
     private int _id;
     private String _description;
     private int _niveau;
+    private DossierImpl _dossier;
 
     public InfractionImpl(int id, String description, int niveau) {
         _id = id;
