@@ -37,20 +37,40 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA {
 
     public void ajouterDossier(String nom, String prenom, String noPermis, String noPlaque) throws NoPermisExisteDejaException {
         DossierImpl existsing = _dossiers.trouverDossierPar(d -> d.noPermis().equals(noPermis));
-        if(existsing == null) {
-            _dossiers.add(new DossierImpl(nom, prenom, noPermis, noPlaque));
-        }
-        else {
+        if(existsing != null) {
             throw new NoPermisExisteDejaException();
         }
+
+        _dossiers.add(new DossierImpl(nom, prenom, noPermis, noPlaque));
     }
 
     public void ajouterInfractionAuDossier(int idDossier, int idInfraction) throws InvalidIdException {
         DossierImpl dossier = _dossiers.trouverDossierPar(d -> d.id() == idDossier);
-        //InfractionImpl infraction = _infractions.trouv
+        InfractionImpl infraction = _infractions.trouverParId(idInfraction);
+
+        if(dossier == null) {
+            throw new InvalidIdException(String.format("idDossier:%d", idDossier));
+        }
+
+        if(infraction == null) {
+            throw new InvalidIdException(String.format("idInfraction:%d", idInfraction));
+        }
+
+        // TODO
     }
 
     public void ajouterReactionAuDossier(int idDossier, int idReaction) throws InvalidIdException {
+        DossierImpl dossier = _dossiers.trouverDossierPar(d -> d.id() == idDossier);
+        ReactionImpl reaction = _reactions.trouverParId(idReaction);
 
+        if(dossier == null) {
+            throw new InvalidIdException(String.format("idDossier:%d", idDossier));
+        }
+
+        if(reaction == null) {
+            throw new InvalidIdException(String.format("idReaction:%d", idReaction));
+        }
+
+        // TODO
     }
 }
