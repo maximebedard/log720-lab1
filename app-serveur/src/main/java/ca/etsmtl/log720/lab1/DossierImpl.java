@@ -1,7 +1,6 @@
 package ca.etsmtl.log720.lab1;
 
 public class DossierImpl extends DossierPOA {
-
     private int _id;
     private String _nom;
     private String _noPermis;
@@ -18,6 +17,13 @@ public class DossierImpl extends DossierPOA {
         _noPlaque = noPlaque;
         _prenom = prenom;
         _niveau = niveau;
+    }
+
+    public DossierImpl(String nom, String prenom, String noPermis, String noPlaque) {
+        _nom = nom;
+        _prenom = prenom;
+        _noPermis = noPermis;
+        _noPlaque = noPlaque;
     }
 
     public int id() {

@@ -2,6 +2,8 @@ package ca.etsmtl.log720.lab1;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CollectionDossierImpl extends CollectionDossierPOA {
@@ -16,21 +18,28 @@ public class CollectionDossierImpl extends CollectionDossierPOA {
     }
 
     public Dossier getDossier(int index) {
-        try {
-            DossierImpl dossier = _dossiers.get(index);
-            org.omg.CORBA.Object obj = Serveur._poa.servant_to_reference(dossier);
-            return DossierHelper.narrow(obj);
-        } catch (Exception e) {
-            System.err.println(String.format("Erreur lors du retour du dossier: %s", e));
-            return null;
-        }
-    }
-
-    public Stream<DossierImpl> stream() {
-        return _dossiers.stream();
+        return RemoteObjectHelper.WithError(_dossiers.get(index), DossierHelper::narrow);
     }
 
     public int size() {
         return _dossiers.size();
+    }
+
+    public void add(DossierImpl dossier) {
+        _dossiers.add(dossier);
+    }
+
+    public List<DossierImpl> trouverDossiersPar(Predicate<DossierImpl> predicate) {
+        return _dossiers.stream()
+                .filter(predicate)
+                .collect(Collectors.toList());
+    }
+
+    public DossierImpl trouverDossierPar(Predicate<DossierImpl> predicate) {
+        return _dossiers.stream()
+                .filter(predicate)
+                .findFirst()
+                .get();
+
     }
 }
