@@ -1,22 +1,30 @@
 package ca.etsmtl.log720.lab1;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class CollectionInfractionImpl extends CollectionInfractionPOA {
     private ArrayList<InfractionImpl> _infractions = new ArrayList<InfractionImpl>();
 
     public Infraction getInfraction(int index) {
-        try {
-            InfractionImpl infraction = _infractions.get(index);
-            org.omg.CORBA.Object obj = Serveur._poa.servant_to_reference(infraction);
-            return InfractionHelper.narrow(obj);
-        } catch (Exception e) {
-            System.err.println(String.format("Erreur lors du retour de l'infraction: %s", e));
-            return null;
-        }
+        return RemoteObjectHelper.WithError(_infractions.get(index), InfractionHelper::narrow);
     }
 
     public int size() {
         return _infractions.size();
+    }
+
+    public List<InfractionImpl> trouverInfractionsPar(Predicate<InfractionImpl> predicate) {
+        return _infractions.stream()
+                .filter(predicate)
+                .collect(Collectors.toList());
+    }
+
+    public InfractionImpl trouverInfractionPar(Predicate<InfractionImpl> predicate) {
+        return _infractions.stream()
+                .filter(predicate)
+                .findFirst().orElse(null);
     }
 }

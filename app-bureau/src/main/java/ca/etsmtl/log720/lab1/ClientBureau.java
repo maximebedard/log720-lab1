@@ -14,8 +14,9 @@ public class ClientBureau{
             NameComponent[] name = new NameComponent[] { new NameComponent("BanqueDossiers", "service") };
 
             BanqueDossiers banqueDossiers = BanqueDossiersHelper.narrow(nc.resolve(name));
+            banqueDossiers.ajouterDossier("Bedard", "Maxime", "1", "123");
+            banqueDossiers.ajouterDossier("Bedard", "Maxime", "1", "123");
             System.out.println(banqueDossiers.trouverDossierParId(1));
-
         } catch (Exception e) {
             e.printStackTrace();
         }

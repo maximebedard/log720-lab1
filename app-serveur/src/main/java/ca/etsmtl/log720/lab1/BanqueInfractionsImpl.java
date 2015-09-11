@@ -1,9 +1,13 @@
 package ca.etsmtl.log720.lab1;
 
+import java.util.ArrayList;
+
 public class BanqueInfractionsImpl extends BanqueInfractionsPOA {
 
+    private CollectionInfractionImpl _infractions = new CollectionInfractionImpl();
+
     public CollectionInfraction infractions() {
-        return null;
+        return RemoteObjectHelper.WithError(_infractions, CollectionInfractionHelper::narrow);
     }
 
     public CollectionInfraction trouverInfractionsParDossier(Dossier mydossier) {

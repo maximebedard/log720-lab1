@@ -38,8 +38,6 @@ public class CollectionDossierImpl extends CollectionDossierPOA {
     public DossierImpl trouverDossierPar(Predicate<DossierImpl> predicate) {
         return _dossiers.stream()
                 .filter(predicate)
-                .findFirst()
-                .get();
-
+                .findFirst().orElse(null);
     }
 }
