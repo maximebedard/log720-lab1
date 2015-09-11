@@ -27,4 +27,12 @@ public class CollectionReactionImpl extends CollectionReactionPOA {
                 .filter(predicate)
                 .findFirst().orElse(null);
     }
+
+    public int[] ids() {
+        return _reactions.stream().mapToInt(ReactionImpl::id).toArray();
+    }
+
+    public void add(ReactionImpl reaction) {
+        _reactions.add(reaction);
+    }
 }

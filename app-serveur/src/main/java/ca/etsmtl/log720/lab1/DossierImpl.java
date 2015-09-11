@@ -1,6 +1,8 @@
 package ca.etsmtl.log720.lab1;
 
 public class DossierImpl extends DossierPOA {
+    private final BanqueInfractionsImpl banqueInfractions;
+    private final BanqueReactionsImpl banqueReactions;
     private int _id;
     private String _nom;
     private String _noPermis;
@@ -10,16 +12,12 @@ public class DossierImpl extends DossierPOA {
     private CollectionInfractionImpl _infractions = new CollectionInfractionImpl();
     private CollectionReactionImpl _reactions = new CollectionReactionImpl();
 
-    public DossierImpl(int id, String nom, String noPermis, String noPlaque, String prenom, int niveau) {
-        _id = id;
-        _nom = nom;
-        _noPermis = noPermis;
-        _noPlaque = noPlaque;
-        _prenom = prenom;
-        _niveau = niveau;
-    }
+    private static int counter = 0;
 
-    public DossierImpl(String nom, String prenom, String noPermis, String noPlaque) {
+    public DossierImpl(BanqueInfractionsImpl _banqueInfractions, BanqueReactionsImpl _banqueReactions, String nom, String prenom, String noPermis, String noPlaque) {
+        banqueInfractions = _banqueInfractions;
+        banqueReactions = _banqueReactions;
+        _id = counter++;
         _nom = nom;
         _prenom = prenom;
         _noPermis = noPermis;
@@ -51,19 +49,25 @@ public class DossierImpl extends DossierPOA {
     }
 
     public int[] getListeInfraction() {
-        return null; // TODO
+        return _infractions.ids();
     }
 
     public int[] getListeReaction() {
-        return null; // TODO
+        return _reactions.ids();
     }
 
     public void ajouterReactionAListe(int idReaction) {
-        // TODO
+        ReactionImpl reaction = banqueReactions.trouverParId(idReaction);
+        if(reaction == null) { return; }
+
+        _reactions.add(reaction);
     }
 
     public void ajouterInfractionAListe(int idInfraction) {
-        // TODO
+        InfractionImpl infraction = banqueInfractions.trouverParId(idInfraction);
+        if(infraction == null) { return; }
+
+        _infractions.add(infraction);
     }
 
     public String _toString() {

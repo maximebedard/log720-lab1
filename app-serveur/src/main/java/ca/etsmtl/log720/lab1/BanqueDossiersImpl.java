@@ -41,36 +41,25 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA {
             throw new NoPermisExisteDejaException();
         }
 
-        _dossiers.add(new DossierImpl(nom, prenom, noPermis, noPlaque));
+        _dossiers.add(new DossierImpl(_infractions, _reactions, nom, prenom, noPermis, noPlaque));
     }
 
     public void ajouterInfractionAuDossier(int idDossier, int idInfraction) throws InvalidIdException {
         DossierImpl dossier = _dossiers.trouverDossierPar(d -> d.id() == idDossier);
-        InfractionImpl infraction = _infractions.trouverParId(idInfraction);
-
         if(dossier == null) {
             throw new InvalidIdException(String.format("idDossier:%d", idDossier));
         }
 
-        if(infraction == null) {
-            throw new InvalidIdException(String.format("idInfraction:%d", idInfraction));
-        }
-
-        // TODO
+        dossier.ajouterInfractionAListe(idInfraction);
     }
 
     public void ajouterReactionAuDossier(int idDossier, int idReaction) throws InvalidIdException {
         DossierImpl dossier = _dossiers.trouverDossierPar(d -> d.id() == idDossier);
-        ReactionImpl reaction = _reactions.trouverParId(idReaction);
 
         if(dossier == null) {
             throw new InvalidIdException(String.format("idDossier:%d", idDossier));
         }
 
-        if(reaction == null) {
-            throw new InvalidIdException(String.format("idReaction:%d", idReaction));
-        }
-
-        // TODO
+        dossier.ajouterReactionAListe(idReaction);
     }
 }

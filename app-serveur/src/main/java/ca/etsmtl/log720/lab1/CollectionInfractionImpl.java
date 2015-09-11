@@ -27,4 +27,12 @@ public class CollectionInfractionImpl extends CollectionInfractionPOA {
                 .filter(predicate)
                 .findFirst().orElse(null);
     }
+
+    public int[] ids() {
+        return _infractions.stream().mapToInt(InfractionImpl::id).toArray();
+    }
+
+    public void add(InfractionImpl infraction) {
+        _infractions.add(infraction);
+    }
 }

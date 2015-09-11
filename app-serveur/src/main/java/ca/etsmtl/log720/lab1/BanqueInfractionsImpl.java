@@ -21,4 +21,8 @@ public class BanqueInfractionsImpl extends BanqueInfractionsPOA {
     public void ajouterInfraction(String description, int niveau) throws NiveauHorsBornesException {
 
     }
+
+    public InfractionImpl trouverParId(int idInfraction) {
+        return _infractions.trouverInfractionPar(i -> i.id() == idInfraction);
+    }
 }
