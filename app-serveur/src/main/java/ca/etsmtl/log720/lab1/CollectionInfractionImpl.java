@@ -29,7 +29,17 @@ public class CollectionInfractionImpl extends CollectionInfractionPOA {
     }
 
     public int[] ids() {
-        return _infractions.stream().mapToInt(InfractionImpl::id).toArray();
+        return _infractions
+                .stream()
+                .mapToInt(InfractionImpl::id)
+                .toArray();
+    }
+
+    public InfractionImpl plusSevere() {
+        return _infractions
+                .stream()
+                .max((i1, i2) -> Integer.compare(i1.niveau(), i2.niveau()))
+                .orElse(null);
     }
 
     public void add(InfractionImpl infraction) {
