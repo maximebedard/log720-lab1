@@ -5,9 +5,10 @@ public class InfractionImpl extends InfractionPOA {
     private String _description;
     private int _niveau;
     private DossierImpl _dossier;
+    private static int counter = 0;
 
-    public InfractionImpl(int id, String description, int niveau) {
-        _id = id;
+    public InfractionImpl(String description, int niveau) {
+        _id = counter++;
         _description = description;
         _niveau = niveau;
     }
@@ -23,6 +24,8 @@ public class InfractionImpl extends InfractionPOA {
     public int niveau() {
         return _niveau;
     }
+
+    public DossierImpl dossier() { return _dossier; }
 
     public String _toString() {
         return String.format("%d - %d - %s", id(), niveau(), description());

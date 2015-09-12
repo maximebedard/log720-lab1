@@ -8,7 +8,6 @@ public class DossierImpl extends DossierPOA {
     private String _noPermis;
     private String _noPlaque;
     private String _prenom;
-    private int _niveau;
     private CollectionInfractionImpl _infractions = new CollectionInfractionImpl();
     private CollectionReactionImpl _reactions = new CollectionReactionImpl();
 
@@ -45,7 +44,11 @@ public class DossierImpl extends DossierPOA {
     }
 
     public int niveau() {
-        return _niveau;
+        InfractionImpl infraction = _infractions.plusSevere();
+        if(infraction != null) {
+            return infraction.niveau();
+        }
+        return 0;
     }
 
     public int[] getListeInfraction() {
