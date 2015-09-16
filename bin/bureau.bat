@@ -1,2 +1,2 @@
 call settings.bat
-jaco %APP_SERVEUR%
+jaco %APP_BUREAU%
