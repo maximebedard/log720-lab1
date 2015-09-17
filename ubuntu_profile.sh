@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # This is used for ubunto 12.04 LTS
+export LOG720_LAB1_PROJECT_ROOT=$PWD
 
 # Configuration jdk
 export JAVA_HOME="/usr/local/java-8-oracle/jre"

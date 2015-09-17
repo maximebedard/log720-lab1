@@ -1,36 +1,41 @@
 # log720-lab1
 
-## Installation Mac OS X
+## Installation
 
 ```sh
 # Clone the repository
 git clone https://github.com/maximebedard/log720-lab1
 cd log720-lab1
 
-# Install dependencies (Mac)
+# Installation des dépendances sur Mac OS X
 brew install maven wget git
 wget http://www.jacorb.org/releases/3.6.1/jacorb-3.6.1-binary.zip -P ~/Downloads
 unzip -q ~/Downloads/jacorb-3.6.1-binary.zip -d ./vendor
 
-# Running the client on MAC OS X
-cd bin/
+# Installation des dépendances sur Ubuntu
+# NOOP
+
+# Execution du client sur Mac OS X
 source ./mac_profile.sh
-cd ../
 mvn clean compile
-./bureau.sh
-./voiture.sh
+./bin/bureau.sh
+./bin/voiture.sh
 
-# Copy shit over to the server
+# Execution du serveur sur Mac OS X
+# Enlever les commentaires au lignes 30,31 du fichier config/local/jacorb.properties
+# Commenter la ligne 27 du fichier config/local/jacorb.properties
+./bin/naming.sh
+./bin/serveur.sh
+
+# Déploiment des fichiers sur le serveur Ubuntu
 rsync -azh ./ AM05130@log720.logti.etsmtl.ca:~/lab1
-
-# Running the naming app and the server
 ssh AM05130@log720.logti.etsmtl.ca
-cd bin/
+
+# Execution du serveur sur Ubuntu
 source ./ubuntu_profile.sh
-cd ../
 mvn clean compile
-./naming.sh
-./serveur.sh
+./bin/naming.sh
+./bin/serveur.sh
 ```
 
 # Troubleshooting
