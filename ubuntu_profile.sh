@@ -12,8 +12,8 @@ export MAVEN_HOME="/opt/mvn/3.3.3"
 export PATH="$MAVEN_HOME/bin:$PATH"
 
 # Configuraton Jacorb
-export JACORB_HOME="$(cd ../vendor/jacorb-3.6.1; pwd)"
+export JACORB_HOME="$(cd $LOG720_LAB1_PROJECT_ROOT/vendor/jacorb-3.6.1; pwd)"
 export PATH="$JACORB_HOME/bin:$PATH"
 
 # Jacorb configuration files
-export JACORB_CONFIGS_PATH="$(cd ../config/remote; pwd)"
+export JACORB_CONFIGS_PATH="$(cd $LOG720_LAB1_PROJECT_ROOT/config/remote; pwd)"
