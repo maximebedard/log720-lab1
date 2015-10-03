@@ -70,15 +70,20 @@ public class Menu {
     }
 
     private void printItems() {
-        System.out.print(header);
+        if(header != null) {
+            System.out.print(header);
+        }
+
         for (Map.Entry<String, MenuItem> entry : items.entrySet()) {
             System.out.println(String.format("[%s] %s",
                     entry.getKey(),
                     entry.getValue().getDescription()));
         }
+
         if(additionalItems.size() > 0) {
             System.out.print("\n");
         }
+
         for (Map.Entry<String, MenuItem> entry : additionalItems.entrySet()) {
             System.out.println(String.format(" -> [%s] %s",
                     entry.getKey(),

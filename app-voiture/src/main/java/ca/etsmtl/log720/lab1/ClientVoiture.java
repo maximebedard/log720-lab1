@@ -5,6 +5,8 @@ import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
 
+import java.util.Scanner;
+
 public class ClientVoiture {
 
     private ORB orb;
@@ -84,33 +86,16 @@ public class ClientVoiture {
 
     private void buildRootMenu() {
         root = new Menu();
-        root.setHeader(
-            "\n" +
-            "====================================================\n" +
-            "                MENU PRINCIPAL                      \n" +
-            "====================================================\n" +
-            "\n"
-        );
+        root.setHeader(sectionTitle("menu principal"));
     }
 
     private Menu buildMenuDossiers(Menu parent, CollectionDossier dossiers) {
         Menu menu = new Menu(parent);
-        menu.setHeader(
-            "\n" +
-            "====================================================\n" +
-            "                LISTE DES DOSSIERS                  \n" +
-            "====================================================\n" +
-            "\n"
-        );
+        menu.setHeader(sectionTitle("liste des dossiers"));
         for (int i = 0; i < dossiers.size(); i++) {
             Dossier dossier = dossiers.getDossier(i);
             menu.add(dossier.noPermis(), dossier._toString(), (item) -> {
-                System.out.print(
-                "\n" +
-                "====================================================\n" +
-                "                INFORMATIONS SUR LE DOSSIER         \n" +
-                "====================================================\n" +
-                "\n");
+                System.out.print(sectionTitle("informations sur le dossier"));
 
                 CollectionInfraction infractions = banqueInfractions.trouverInfractionsParDossier(dossier);
                 CollectionReaction reactions = banqueReactions.trouverReactionsParDossier(dossier);
@@ -125,49 +110,61 @@ public class ClientVoiture {
 
                 System.out.println("\nRéactions : ");
                 if (reactions.size() > 0) {
-                    for(int j = 0; j < reactions.size(); j++) {
+                    for (int j = 0; j < reactions.size(); j++) {
                         System.out.println(String.format(" - %s", reactions.getReaction(j)._toString()));
                     }
-                }
-                else {
+                } else {
                     System.out.println("Aucune réactions...");
                 }
 
                 System.out.println("\nInfractions : ");
                 if (infractions.size() > 0) {
-                    for(int j = 0; j < infractions.size(); j++) {
+                    for (int j = 0; j < infractions.size(); j++) {
                         System.out.println(String.format(" - %s", infractions.getInfraction(j)._toString()));
                     }
-                }
-                else {
+                } else {
                     System.out.println("Aucune infractions...");
                 }
             });
-
-            menu.addOption("recherche", "Effectuer une recheche", (item) -> {
-                Menu menuRecherche = new Menu(menu);
-                menuRecherche.add("par nom et prenom", (item2) -> {
-                });
-                menuRecherche.add("par numéro de plaque", (item2) -> {
-                });
-                menuRecherche.add("par numéro de permis", (item2) -> {
-                });
-                menu.display();
-            });
         }
+
+        menu.addOption("recherche", "Effectuer une recheche", (item) -> {
+            buildMenuRechercheDossier(menu).display();
+        });
+
+        return menu;
+    }
+
+    private Menu buildMenuRechercheDossier(Menu parent) {
+        Menu menu = new Menu(parent);
+        Scanner scanner = new Scanner(System.in);
+        menu.add("par nom et prenom", (item) -> {
+            System.out.print("Nom : ");
+            String nom = scanner.next();
+
+            System.out.print("Prenom : ");
+            String prenom = scanner.next();
+
+            buildMenuDossiers(menu, banqueDossiers.trouverDossiersParNom(nom, prenom)).display();
+        });
+
+        menu.add("par numéro de plaque", (item) -> {
+            System.out.print("Numéro de plaque : ");
+            String plaque = scanner.next();
+
+            buildMenuDossiers(menu, banqueDossiers.trouverDossiersParPlaque(plaque)).display();
+        });
+
+        menu.add("par numéro de permis", (item) -> {
+            System.out.println("not implemented");
+        });
 
         return menu;
     }
 
     private Menu buildMenuInfractions(Menu parent, CollectionInfraction infractions) {
         Menu menu = new Menu(parent);
-        menu.setHeader(
-            "\n" +
-            "====================================================\n" +
-            "                LISTE DES INFRACTIONS               \n" +
-            "====================================================\n" +
-            "\n"
-        );
+        menu.setHeader(sectionTitle("liste des infractions"));
         for (int i = 0; i < infractions.size(); i++){
             Infraction infraction = infractions.getInfraction(i);
             menu.add(String.valueOf(infraction.id()), infraction.description(), (item) -> {
@@ -176,6 +173,16 @@ public class ClientVoiture {
         }
 
         return menu;
+    }
+
+    private static String sectionTitle(String title){
+        return String.format(
+            "\n" +
+            "====================================================\n" +
+            "                %s               \n" +
+            "====================================================\n" +
+            "\n"
+        , title.toUpperCase());
     }
 
     public static void main( String[] args ) {
