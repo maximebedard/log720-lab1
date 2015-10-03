@@ -74,6 +74,6 @@ public class DossierImpl extends DossierPOA {
     }
 
     public String _toString() {
-        return String.format("%d - %d - %s", id(), niveau(), nom()); // TODO: improve this
+        return String.format("(id:%d)(permis:%s)(plaque:%s)(niveau:%s) %s, %s", id(), noPermis(), noPlaque(), niveau(), nom(), prenom());
     }
 }

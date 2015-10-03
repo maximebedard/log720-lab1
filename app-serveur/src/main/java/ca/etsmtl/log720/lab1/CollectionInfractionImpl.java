@@ -8,6 +8,10 @@ import java.util.stream.Collectors;
 public class CollectionInfractionImpl extends CollectionInfractionPOA {
     private ArrayList<InfractionImpl> _infractions = new ArrayList<InfractionImpl>();
 
+    public CollectionInfractionImpl(List<InfractionImpl> infractions) { _infractions = new ArrayList<>(infractions); }
+
+    public CollectionInfractionImpl() {}
+
     public Infraction getInfraction(int index) {
         return RemoteObjectHelper.WithError(_infractions.get(index), InfractionHelper::narrow);
     }

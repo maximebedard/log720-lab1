@@ -12,7 +12,8 @@ public class BanqueReactionsImpl extends BanqueReactionsPOA {
     }
 
     public CollectionReaction trouverReactionsParDossier(Dossier myDossier) {
-        return RemoteObjectHelper.WithError(_reactions.trouverInfractionPar(r -> r.dossier() != null && r.dossier().id() == myDossier.id()),
+        return RemoteObjectHelper.WithError(new CollectionReactionImpl(_reactions.trouverReactionsPar(r ->
+                        r.dossier() != null && r.dossier().id() == myDossier.id())),
                 CollectionReactionHelper::narrow);
     }
 
@@ -21,6 +22,6 @@ public class BanqueReactionsImpl extends BanqueReactionsPOA {
     }
 
     public ReactionImpl trouverParId(int idReaction) {
-        return _reactions.trouverInfractionPar(r -> r.id() == idReaction);
+        return _reactions.trouverReactionPar(r -> r.id() == idReaction);
     }
 }

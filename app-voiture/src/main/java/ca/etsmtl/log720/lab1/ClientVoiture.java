@@ -104,11 +104,55 @@ public class ClientVoiture {
         );
         for (int i = 0; i < dossiers.size(); i++) {
             Dossier dossier = dossiers.getDossier(i);
-            menu.add(dossier.noPermis(), String.format("%s %s", dossier.prenom(), dossier.nom()), (item) -> {
-                System.out.println("Details du dossier...");
+            menu.add(dossier.noPermis(), dossier._toString(), (item) -> {
+                System.out.print(
+                "\n" +
+                "====================================================\n" +
+                "                INFORMATIONS SUR LE DOSSIER         \n" +
+                "====================================================\n" +
+                "\n");
+
+                CollectionInfraction infractions = banqueInfractions.trouverInfractionsParDossier(dossier);
+                CollectionReaction reactions = banqueReactions.trouverReactionsParDossier(dossier);
+
+                System.out.println(String.format("Nom           : %s, %s", dossier.nom(), dossier.prenom()));
+                System.out.println(String.format("Niveau        : %d", dossier.niveau()));
+                System.out.println(String.format("# Dossier     : %d", dossier.id()));
+                System.out.println(String.format("# Permis      : %s", dossier.noPermis()));
+                System.out.println(String.format("# Plaque      : %s", dossier.noPlaque()));
+                System.out.println(String.format("# Infractions : %d", infractions.size()));
+                System.out.println(String.format("# Reactions   : %d", reactions.size()));
+
+                System.out.println("\nRéactions : ");
+                if (reactions.size() > 0) {
+                    for(int j = 0; j < reactions.size(); j++) {
+                        System.out.println(String.format(" - %s", reactions.getReaction(j)._toString()));
+                    }
+                }
+                else {
+                    System.out.println("Aucune réactions...");
+                }
+
+                System.out.println("\nInfractions : ");
+                if (infractions.size() > 0) {
+                    for(int j = 0; j < infractions.size(); j++) {
+                        System.out.println(String.format(" - %s", infractions.getInfraction(j)._toString()));
+                    }
+                }
+                else {
+                    System.out.println("Aucune infractions...");
+                }
             });
 
             menu.addOption("recherche", "Effectuer une recheche", (item) -> {
+                Menu menuRecherche = new Menu(menu);
+                menuRecherche.add("par nom et prenom", (item2) -> {
+                });
+                menuRecherche.add("par numéro de plaque", (item2) -> {
+                });
+                menuRecherche.add("par numéro de permis", (item2) -> {
+                });
+                menu.display();
             });
         }
 
@@ -148,8 +192,4 @@ public class ClientVoiture {
         buildListeReactions();
         root.display();
     }
-
-
-
-
 }

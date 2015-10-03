@@ -38,9 +38,11 @@ public class Menu {
     }
 
     private void addDefaultItems() {
-        addOption("retour", "Retour au menu précédent", (item) -> {
-            setRunning(false);
-        });
+        if(parent != null) {
+            addOption("retour", "Retour au menu précédent", (item) -> {
+                setRunning(false);
+            });
+        }
         addOption("quitter", "Quitter l'application", (item) -> {
             System.exit(0);
         });
@@ -73,6 +75,9 @@ public class Menu {
             System.out.println(String.format("[%s] %s",
                     entry.getKey(),
                     entry.getValue().getDescription()));
+        }
+        if(additionalItems.size() > 0) {
+            System.out.print("\n");
         }
         for (Map.Entry<String, MenuItem> entry : additionalItems.entrySet()) {
             System.out.println(String.format(" -> [%s] %s",

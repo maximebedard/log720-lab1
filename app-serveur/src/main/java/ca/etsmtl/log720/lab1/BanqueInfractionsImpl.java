@@ -13,7 +13,8 @@ public class BanqueInfractionsImpl extends BanqueInfractionsPOA {
     }
 
     public CollectionInfraction trouverInfractionsParDossier(Dossier mydossier) {
-        return RemoteObjectHelper.WithError(_infractions.trouverInfractionPar(i -> i.dossier() != null && i.dossier().id() == mydossier.id()),
+        return RemoteObjectHelper.WithError(new CollectionInfractionImpl(_infractions.trouverInfractionsPar(i ->
+                        i.dossier() != null && i.dossier().id() == mydossier.id())),
                 CollectionInfractionHelper::narrow);
     }
 
