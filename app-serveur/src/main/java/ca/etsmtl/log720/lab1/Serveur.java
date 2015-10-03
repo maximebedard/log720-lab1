@@ -40,8 +40,9 @@ public class Serveur {
 
         BanqueInfractionsImpl infractions = new BanqueInfractionsImpl();
         BanqueReactionsImpl reactions = new BanqueReactionsImpl();
+        BanqueDossiersImpl dossiers = new BanqueDossiersImpl(reactions, infractions);
 
-        services.put("BanqueDossiers", new BanqueDossiersImpl(reactions, infractions));
+        services.put("BanqueDossiers", dossiers);
         services.put("BanqueInfractions", infractions);
         services.put("BanqueReactions", reactions);
         return services;
