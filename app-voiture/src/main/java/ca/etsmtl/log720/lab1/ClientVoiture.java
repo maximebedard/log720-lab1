@@ -53,8 +53,14 @@ public class ClientVoiture {
 
     private void buildListeInfractions() {
         root.add("Liste des infractions", (item) -> {
-            Menu subMenu1 = new Menu(root);
-            subMenu1.display();
+            CollectionInfraction infractions = banqueInfractions.infractions();
+
+            if (infractions.size() == 0) {
+                System.out.println("Aucune infraction présente.");
+                return;
+            }
+
+            buildMenuInfractions(root, infractions).display();
         });
     }
 
@@ -73,14 +79,14 @@ public class ClientVoiture {
 
     private void buildListeReactions() {
         root.add("Liste des reactions", (item) -> {
-            CollectionInfraction infractions = banqueInfractions.infractions();
+            CollectionReaction reactions = banqueReactions.reactions();
 
-            if (infractions.size() == 0) {
-                System.out.println("Aucune infraction présente.");
+            if (reactions.size() == 0) {
+                System.out.println("Aucune réaction présente.");
                 return;
             }
 
-            buildMenuInfractions(root, infractions).display();
+            buildMenuReactions(root, reactions).display();
         });
     }
 
@@ -137,6 +143,7 @@ public class ClientVoiture {
 
     private Menu buildMenuRechercheDossier(Menu parent) {
         Menu menu = new Menu(parent);
+        menu.setHeader(sectionTitle("recherche de dossier"));
         Scanner scanner = new Scanner(System.in);
         menu.add("par nom et prenom", (item) -> {
             System.out.print("Nom : ");
@@ -169,6 +176,19 @@ public class ClientVoiture {
             Infraction infraction = infractions.getInfraction(i);
             menu.add(String.valueOf(infraction.id()), infraction.description(), (item) -> {
                 System.out.println("Details de l'infraction...");
+            });
+        }
+
+        return menu;
+    }
+
+    private Menu buildMenuReactions(Menu parent, CollectionReaction reactions) {
+        Menu menu = new Menu(parent);
+        menu.setHeader(sectionTitle("liste des reactions"));
+        for (int i = 0; i < reactions.size(); i++){
+            Reaction reaction = reactions.getReaction(i);
+            menu.add(String.valueOf(reaction.id()), reaction.description(), (item) -> {
+                System.out.println("Details de la réaction...");
             });
         }
 
