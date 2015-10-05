@@ -13,6 +13,7 @@ public class ClientVoiture {
     private BanqueDossiers banqueDossiers;
     private BanqueInfractions banqueInfractions;
     private BanqueReactions banqueReactions;
+    private Dossier current;
     private Menu root;
 
     public ClientVoiture(ORB orb) {
@@ -45,9 +46,19 @@ public class ClientVoiture {
             banqueDossiers.ajouterDossier("Lemieux",    "Henry",  "456123", "123WTF");
             banqueDossiers.ajouterDossier("Gagnon",     "Roger",  "789123", "456BED");
             banqueDossiers.ajouterDossier("Castonguay", "Benard", "000123", "678PUT");
+            banqueReactions.ajouterReaction("Evite le regard d'autrui", 1);
+            banqueReactions.ajouterReaction("Fait usage de la force", 3);
+            banqueReactions.ajouterReaction("Lève le ton", 1);
+            banqueInfractions.ajouterInfraction("Délit de fuite", 4);
+            banqueInfractions.ajouterInfraction("Excès de vitesse", 2);
+            banqueInfractions.ajouterInfraction("Refuse de s'immobiliser", 5);
+            banqueInfractions.ajouterInfraction("Interdiction de stationner son vehicule", 5);
         }
         catch (NoPermisExisteDejaException ex) {
             ex.printStackTrace();
+        }
+        catch (NiveauHorsBornesException e) {
+            e.printStackTrace();
         }
     }
 
@@ -101,36 +112,7 @@ public class ClientVoiture {
         for (int i = 0; i < dossiers.size(); i++) {
             Dossier dossier = dossiers.getDossier(i);
             menu.add(dossier.noPermis(), dossier._toString(), (item) -> {
-                System.out.print(sectionTitle("informations sur le dossier"));
-
-                CollectionInfraction infractions = banqueInfractions.trouverInfractionsParDossier(dossier);
-                CollectionReaction reactions = banqueReactions.trouverReactionsParDossier(dossier);
-
-                System.out.println(String.format("Nom           : %s, %s", dossier.nom(), dossier.prenom()));
-                System.out.println(String.format("Niveau        : %d", dossier.niveau()));
-                System.out.println(String.format("# Dossier     : %d", dossier.id()));
-                System.out.println(String.format("# Permis      : %s", dossier.noPermis()));
-                System.out.println(String.format("# Plaque      : %s", dossier.noPlaque()));
-                System.out.println(String.format("# Infractions : %d", infractions.size()));
-                System.out.println(String.format("# Reactions   : %d", reactions.size()));
-
-                System.out.println("\nRéactions : ");
-                if (reactions.size() > 0) {
-                    for (int j = 0; j < reactions.size(); j++) {
-                        System.out.println(String.format(" - %s", reactions.getReaction(j)._toString()));
-                    }
-                } else {
-                    System.out.println("Aucune réactions...");
-                }
-
-                System.out.println("\nInfractions : ");
-                if (infractions.size() > 0) {
-                    for (int j = 0; j < infractions.size(); j++) {
-                        System.out.println(String.format(" - %s", infractions.getInfraction(j)._toString()));
-                    }
-                } else {
-                    System.out.println("Aucune infractions...");
-                }
+                displayDossier(dossier);
             });
         }
 
@@ -139,6 +121,39 @@ public class ClientVoiture {
         });
 
         return menu;
+    }
+
+    private void displayDossier(Dossier dossier) {
+        System.out.print(sectionTitle("informations sur le dossier"));
+
+        CollectionInfraction infractions = banqueInfractions.trouverInfractionsParDossier(dossier);
+        CollectionReaction reactions = banqueReactions.trouverReactionsParDossier(dossier);
+
+        System.out.println(String.format("Nom           : %s, %s", dossier.nom(), dossier.prenom()));
+        System.out.println(String.format("Niveau        : %d", dossier.niveau()));
+        System.out.println(String.format("# Dossier     : %d", dossier.id()));
+        System.out.println(String.format("# Permis      : %s", dossier.noPermis()));
+        System.out.println(String.format("# Plaque      : %s", dossier.noPlaque()));
+        System.out.println(String.format("# Infractions : %d", infractions.size()));
+        System.out.println(String.format("# Reactions   : %d", reactions.size()));
+
+        System.out.println("\nRéactions : ");
+        if (reactions.size() > 0) {
+            for (int j = 0; j < reactions.size(); j++) {
+                System.out.println(String.format(" - %s", reactions.getReaction(j)._toString()));
+            }
+        } else {
+            System.out.println("Aucune réactions...");
+        }
+
+        System.out.println("\nInfractions : ");
+        if (infractions.size() > 0) {
+            for (int j = 0; j < infractions.size(); j++) {
+                System.out.println(String.format(" - %s", infractions.getInfraction(j)._toString()));
+            }
+        } else {
+            System.out.println("Aucune infractions...");
+        }
     }
 
     private Menu buildMenuRechercheDossier(Menu parent) {
@@ -163,7 +178,16 @@ public class ClientVoiture {
         });
 
         menu.add("par numéro de permis", (item) -> {
-            System.out.println("not implemented");
+            System.out.print("Numéro de permis: ");
+            String noPermis = scanner.next();
+
+            Dossier dossier = banqueDossiers.trouverDossierParPermis(noPermis);
+            if (dossier == null) {
+                System.out.println(String.format("Le dossier avec le #%s n'existe pas...", noPermis));
+            } else {
+                displayDossier(dossier);
+                current = dossier;
+            }
         });
 
         return menu;
@@ -183,26 +207,34 @@ public class ClientVoiture {
     }
 
     private Menu buildMenuReactions(Menu parent, CollectionReaction reactions) {
+        Scanner scanner = new Scanner(System.in);
         Menu menu = new Menu(parent);
         menu.setHeader(sectionTitle("liste des reactions"));
         for (int i = 0; i < reactions.size(); i++){
             Reaction reaction = reactions.getReaction(i);
             menu.add(String.valueOf(reaction.id()), reaction.description(), (item) -> {
-                System.out.println("Details de la réaction...");
+                System.out.print("Ajouter au dossier : ");
+                try {
+                    banqueDossiers.ajouterReactionAuDossier(scanner.nextInt(), reaction.id());
+                    System.out.println("L'ajout de la réaction a été complété avec succès.");
+                } catch (InvalidIdException e) {
+                    System.err.println("L'ajout de la réaction au dossier à échoué.");
+                }
             });
         }
 
         return menu;
     }
 
-    private static String sectionTitle(String title){
-        return String.format(
-            "\n" +
-            "====================================================\n" +
-            "                %s               \n" +
-            "====================================================\n" +
-            "\n"
-        , title.toUpperCase());
+    private String sectionTitle(String title){
+        String header = "";
+        header += "=============================================================\n";
+        header += title.toUpperCase() + "\n";
+        if (current != null) {
+            header += String.format("Document selectionné: %s\n", current.noPermis());
+        }
+        header += "=============================================================\n";
+        return header;
     }
 
     public static void main( String[] args ) {
@@ -219,4 +251,7 @@ public class ClientVoiture {
         buildListeReactions();
         root.display();
     }
+
+
+
 }
