@@ -5,19 +5,20 @@ import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class ClientVoiture {
 
+    private final Scanner scanner;
     private ORB orb;
     private BanqueDossiers banqueDossiers;
     private BanqueInfractions banqueInfractions;
     private BanqueReactions banqueReactions;
     private Dossier current;
-    private Menu root;
 
     public ClientVoiture(ORB orb) {
         this.orb = orb;
+        this.scanner = new Scanner(System.in);
         initializeContext();
         seedData();
     }
@@ -62,69 +63,8 @@ public class ClientVoiture {
         }
     }
 
-    private void buildListeInfractions() {
-        root.add("Liste des infractions", (item) -> {
-            CollectionInfraction infractions = banqueInfractions.infractions();
-
-            if (infractions.size() == 0) {
-                System.out.println("Aucune infraction présente.");
-                return;
-            }
-
-            buildMenuInfractions(root, infractions).display();
-        });
-    }
-
-    private void buildListeDossiers() {
-        root.add("Liste des dossiers", (item) -> {
-            CollectionDossier dossiers = banqueDossiers.dossiers();
-
-            if (dossiers.size() == 0) {
-                System.out.println("Aucun dossier présent.");
-                return;
-            }
-
-            buildMenuDossiers(root, dossiers).display();
-        });
-    }
-
-    private void buildListeReactions() {
-        root.add("Liste des reactions", (item) -> {
-            CollectionReaction reactions = banqueReactions.reactions();
-
-            if (reactions.size() == 0) {
-                System.out.println("Aucune réaction présente.");
-                return;
-            }
-
-            buildMenuReactions(root, reactions).display();
-        });
-    }
-
-    private void buildRootMenu() {
-        root = new Menu();
-        root.setHeader(sectionTitle("menu principal"));
-    }
-
-    private Menu buildMenuDossiers(Menu parent, CollectionDossier dossiers) {
-        Menu menu = new Menu(parent);
-        menu.setHeader(sectionTitle("liste des dossiers"));
-        for (int i = 0; i < dossiers.size(); i++) {
-            Dossier dossier = dossiers.getDossier(i);
-            menu.add(dossier.noPermis(), dossier._toString(), (item) -> {
-                displayDossier(dossier);
-            });
-        }
-
-        menu.addOption("recherche", "Effectuer une recheche", (item) -> {
-            buildMenuRechercheDossier(menu).display();
-        });
-
-        return menu;
-    }
-
     private void displayDossier(Dossier dossier) {
-        System.out.print(sectionTitle("informations sur le dossier"));
+        System.out.println(formatSectionTitle("informations sur le dossier"));
 
         CollectionInfraction infractions = banqueInfractions.trouverInfractionsParDossier(dossier);
         CollectionReaction reactions = banqueReactions.trouverReactionsParDossier(dossier);
@@ -154,79 +94,15 @@ public class ClientVoiture {
         } else {
             System.out.println("Aucune infractions...");
         }
-    }
 
-    private Menu buildMenuRechercheDossier(Menu parent) {
-        Menu menu = new Menu(parent);
-        menu.setHeader(sectionTitle("recherche de dossier"));
-        Scanner scanner = new Scanner(System.in);
-        menu.add("par nom et prenom", (item) -> {
-            System.out.print("Nom : ");
-            String nom = scanner.next();
-
-            System.out.print("Prenom : ");
-            String prenom = scanner.next();
-
-            buildMenuDossiers(menu, banqueDossiers.trouverDossiersParNom(nom, prenom)).display();
-        });
-
-        menu.add("par numéro de plaque", (item) -> {
-            System.out.print("Numéro de plaque : ");
-            String plaque = scanner.next();
-
-            buildMenuDossiers(menu, banqueDossiers.trouverDossiersParPlaque(plaque)).display();
-        });
-
-        menu.add("par numéro de permis", (item) -> {
-            System.out.print("Numéro de permis: ");
-            String noPermis = scanner.next();
-
-            Dossier dossier = banqueDossiers.trouverDossierParPermis(noPermis);
-            if (dossier == null) {
-                System.out.println(String.format("Le dossier avec le #%s n'existe pas...", noPermis));
-            } else {
-                displayDossier(dossier);
-                current = dossier;
-            }
-        });
-
-        return menu;
-    }
-
-    private Menu buildMenuInfractions(Menu parent, CollectionInfraction infractions) {
-        Menu menu = new Menu(parent);
-        menu.setHeader(sectionTitle("liste des infractions"));
-        for (int i = 0; i < infractions.size(); i++){
-            Infraction infraction = infractions.getInfraction(i);
-            menu.add(String.valueOf(infraction.id()), infraction.description(), (item) -> {
-                System.out.println("Details de l'infraction...");
-            });
+        if ((current == null || current.id() != dossier.id())
+                && promptYesNo("Selectionner ce dossier?")) {
+            current = dossier;
+            System.out.println("Le dossier courant a été selectionné avec succès.");
         }
-
-        return menu;
     }
 
-    private Menu buildMenuReactions(Menu parent, CollectionReaction reactions) {
-        Scanner scanner = new Scanner(System.in);
-        Menu menu = new Menu(parent);
-        menu.setHeader(sectionTitle("liste des reactions"));
-        for (int i = 0; i < reactions.size(); i++){
-            Reaction reaction = reactions.getReaction(i);
-            menu.add(String.valueOf(reaction.id()), reaction.description(), (item) -> {
-                System.out.print("Ajouter au dossier : ");
-                try {
-                    banqueDossiers.ajouterReactionAuDossier(scanner.nextInt(), reaction.id());
-                    System.out.println("L'ajout de la réaction a été complété avec succès.");
-                } catch (InvalidIdException e) {
-                    System.err.println("L'ajout de la réaction au dossier à échoué.");
-                }
-            });
-        }
-
-        return menu;
-    }
-
-    private String sectionTitle(String title){
+    private String formatSectionTitle(String title){
         String header = "";
         header += "=============================================================\n";
         header += title.toUpperCase() + "\n";
@@ -237,21 +113,174 @@ public class ClientVoiture {
         return header;
     }
 
+    private void display() {
+        final boolean[] running = {true};
+
+        Menu actions = new Menu();
+        actions.put("0", "Liste des infractions", this::displayListeInfractions);
+        actions.put("1", "Liste des reactions", this::displayListeReactions);
+        actions.put("2", "Liste des dossiers", () -> displayListeDossiers(null));
+        actions.put("quitter", "Quitter l'application", () -> running[0] = false);
+
+        do {
+            actions.prompt(formatSectionTitle("menu principal"));
+        } while(running[0]);
+    }
+
+    private void quitter() {
+        System.exit(0);
+    }
+
+    public void displayListeInfractions() {
+        final boolean[] running = {true};
+
+        do {
+            Menu actions = new Menu();
+            CollectionInfraction infractions = banqueInfractions.infractions();
+            for(int i = 0; i < infractions.size(); i++){
+                Infraction infraction = infractions.getInfraction(i);
+                String id = String.valueOf(infraction.id());
+                actions.put(id, infraction._toString(), () -> displayInfraction(infraction));
+            }
+
+            actions.put("retour", "Retour au menu précédent", () -> running[0] = false);
+            actions.put("quitter", "Quitter l'application", this::quitter);
+
+            actions.prompt(formatSectionTitle("liste des infractions"));
+        } while(running[0]);
+    }
+
+    private void displayMenu(HashMap<String, MenuItem> menu) {
+        for(Map.Entry<String, MenuItem> action:menu.entrySet()){
+            System.out.println(String.format("[%s] %s", action.getKey(), action.getValue()));
+        }
+    }
+
+    private void displayInfraction(Infraction infraction) {
+        if(current == null) {
+            System.err.println("Veuillez selectionner avant d'ajouter cette infraction.");
+            return;
+        }
+
+        if(promptYesNo("Ajouter cette reaction au dossier courrant")){
+            current.ajouterInfractionAListe(infraction.id());
+            System.out.println("L'infraction a été ajouté au dossier avec succès.");
+        }
+    }
+
+    public void displayListeReactions() {
+        final boolean[] running = {true};
+
+        do {
+            Menu actions = new Menu();
+            CollectionReaction reactions = banqueReactions.reactions();
+            for(int i = 0; i < reactions.size(); i++){
+                Reaction reaction = reactions.getReaction(i);
+                String id = String.valueOf(reaction.id());
+                actions.put(id, reaction._toString(), () -> displayReaction(reaction));
+            }
+
+            actions.put("retour", "Retour au menu précédent", () -> running[0] = false);
+            actions.put("quitter", "Quitter l'application", this::quitter);
+
+            actions.prompt(formatSectionTitle("liste des reactions"));
+        } while(running[0]);
+    }
+
+    private void displayReaction(Reaction reaction) {
+        if(current == null) {
+            System.err.print("Veuillez selectionner avant d'ajouter cette réaction.");
+            return;
+        }
+
+        if(promptYesNo("Ajouter cette reaction au dossier courrant")){
+            current.ajouterReactionAListe(reaction.id());
+            System.out.println("La réaction a été ajouté au dossier avec succès.");
+        }
+    }
+
+    private void displayListeDossiers(CollectionDossier dossiers) {
+        final boolean[] running = {true};
+
+        if(dossiers == null)
+            dossiers = banqueDossiers.dossiers();
+
+        do {
+            Menu actions = new Menu();
+            for(int i = 0; i < dossiers.size(); i++){
+                Dossier dossier = dossiers.getDossier(i);
+                String id = String.valueOf(dossier.id());
+                actions.put(id, dossier._toString(), () -> displayDossier(dossier));
+            }
+            actions.put("rechercher", "Rechercher un dossier", this::displayRechercherDossier);
+            actions.put("retour", "Retour au menu précédent", () -> running[0] = false);
+            actions.put("quitter", "Quitter l'application", this::quitter);
+
+
+            actions.prompt(formatSectionTitle("liste des dossiers"));
+        } while(running[0]);
+    }
+
+    private void displayRechercherDossier() {
+        Menu actions = new Menu();
+        actions.put("par nom et prénom", () -> {
+            System.out.print("Nom : ");
+            String nom = scanner.next();
+
+            System.out.print("Prenom : ");
+            String prenom = scanner.next();
+
+            displayListeDossiers(banqueDossiers.trouverDossiersParNom(nom, prenom));
+        });
+        actions.put("par numéro de plaque", () -> {
+            System.out.print("Numéro de plaque : ");
+            String plaque = scanner.next();
+
+            displayListeDossiers(banqueDossiers.trouverDossiersParPlaque(plaque));
+        });
+        actions.put("par numéro de permis", () -> {
+            System.out.print("Numéro de permis : ");
+            String noPermis = scanner.next();
+
+            Dossier dossier = banqueDossiers.trouverDossierParPermis(noPermis);
+            if (dossier == null) {
+                System.out.println(String.format("Le dossier avec le #%s n'existe pas...", noPermis));
+            } else {
+                displayDossier(dossier);
+            }
+        });
+
+        actions.prompt(formatSectionTitle("rechercher un dossier"));
+    }
+
+    private boolean promptYesNo(String message){
+        List<String> yesValues = Arrays.asList(new String[]{"oui", "o", "yes", "y"});
+        List<String> noValues = Arrays.asList(new String[]{"non", "n", "no"});
+
+        boolean ret = false;
+        do {
+            System.out.print(String.format("%s [%s|%s]",
+                    message,
+                    String.join(",", yesValues),
+                    String.join(",", noValues)));
+            String choice = scanner.next().toLowerCase();
+
+            if (yesValues.contains(choice)) {
+                ret = true;
+                break;
+            }
+            else if(noValues.contains(choice)) {
+                break;
+            }
+        } while(true);
+
+        return ret;
+    }
+
     public static void main( String[] args ) {
         ORB orb = ORB.init(args, null);
 
         ClientVoiture client = new ClientVoiture(orb);
-        client.run();
+        client.display();
     }
-
-    private void run() {
-        buildRootMenu();
-        buildListeInfractions();
-        buildListeDossiers();
-        buildListeReactions();
-        root.display();
-    }
-
-
-
 }

@@ -1,25 +1,20 @@
 package ca.etsmtl.log720.lab1;
 
 public class MenuItem {
-    private final Menu menu;
-    private final String description;
-    private final MenuItemListener listener;
+    private final String value;
+    private Runnable callback;
 
-    public MenuItem(Menu menu, String description, MenuItemListener listener) {
-        this.menu = menu;
-        this.description = description;
-        this.listener = listener;
+    public MenuItem(String value, Runnable callback) {
+        this.value = value;
+        this.callback = callback;
     }
 
-    public String getDescription() {
-        return description;
+    public void run(){
+        callback.run();
     }
 
-    public void select() {
-        listener.select(this);
-    }
-
-    public Menu getMenu() {
-        return menu;
+    @Override
+    public String toString() {
+        return value;
     }
 }

@@ -5,101 +5,45 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Menu {
-    private HashMap<String, MenuItem> items;
-    private HashMap<String, MenuItem> additionalItems;
-    private Menu parent;
-    private boolean running = true;
-    private String header;
 
-    public Menu() {
+    private final HashMap<String, MenuItem> items;
+    private Scanner scanner = new Scanner(System.in);
+
+    public Menu(){
         this.items = new HashMap<>();
-        this.additionalItems = new HashMap<>();
-        addDefaultItems();
     }
 
-
-    public Menu(Menu parent) {
-        this.items = new HashMap<>();
-        this.additionalItems = new HashMap<>();
-        this.parent = parent;
-        addDefaultItems();
+    public void put(String key, String description, Runnable callback) {
+        this.items.put(key, new MenuItem(description, callback));
     }
 
-    public void add(String key, String description, MenuItemListener listener) {
-        this.items.put(key, new MenuItem(this, description, listener));
+    public void put(String description, Runnable callback) {
+        this.items.put(String.valueOf(items.size()), new MenuItem(description, callback));
     }
 
-    public void add(String description, MenuItemListener listener) {
-        this.items.put(String.valueOf(items.size()), new MenuItem(this, description, listener));
+    public MenuItem get(String key) {
+        return items.get(key);
     }
 
-    public void addOption(String key, String description, MenuItemListener listener) {
-        this.additionalItems.put(key, new MenuItem(this, description, listener));
-    }
+    public void prompt(String title) {
+        System.out.println(title);
+        System.out.println(this.toString());
+        System.out.print("=> ");
 
-    private void addDefaultItems() {
-        if(parent != null) {
-            addOption("retour", "Retour au menu précédent", (item) -> {
-                setRunning(false);
-            });
-        }
-        addOption("quitter", "Quitter l'application", (item) -> {
-            System.exit(0);
-        });
-    }
+        String choix = scanner.next();
 
-    public void display() {
-        Scanner scanner = new Scanner(System.in);
-        while (running) {
-            printItems();
-            System.out.print(" -> ");
-            String option = scanner.next();
-
-            MenuItem defaultItem = additionalItems.get(option);
-            if (defaultItem != null) {
-                defaultItem.select();
-                continue;
-            }
-
-            MenuItem item = items.get(option);
-            if (item != null) {
-                item.select();
-                continue;
-            }
+        MenuItem action = this.get(choix);
+        if(action != null){
+            action.run();
         }
     }
 
-    private void printItems() {
-        if(header != null) {
-            System.out.print(header);
+    @Override
+    public String toString() {
+        String value = "";
+        for (Map.Entry<String, MenuItem> i:items.entrySet()){
+            value += String.format("[%s] %s\n", i.getKey(), i.getValue());
         }
-
-        for (Map.Entry<String, MenuItem> entry : items.entrySet()) {
-            System.out.println(String.format("[%s] %s",
-                    entry.getKey(),
-                    entry.getValue().getDescription()));
-        }
-
-        if(additionalItems.size() > 0) {
-            System.out.print("\n");
-        }
-
-        for (Map.Entry<String, MenuItem> entry : additionalItems.entrySet()) {
-            System.out.println(String.format(" -> [%s] %s",
-                    entry.getKey(),
-                    entry.getValue().getDescription()));
-        }
-    }
-
-    public Menu getParent() {
-        return parent;
-    }
-
-    public void setRunning(boolean running) {
-        this.running = running;
-    }
-
-    public void setHeader(String header) {
-        this.header = header;
+        return value;
     }
 }
