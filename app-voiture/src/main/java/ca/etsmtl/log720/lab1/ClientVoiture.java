@@ -20,7 +20,7 @@ public class ClientVoiture {
         this.orb = orb;
         this.scanner = new Scanner(System.in);
         initializeContext();
-        seedData();
+        //seedData();
     }
 
     private void initializeContext() {

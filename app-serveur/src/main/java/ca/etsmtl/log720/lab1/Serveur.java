@@ -47,12 +47,12 @@ public class Serveur {
                         System.out.println("Closing server system, serializing data...");
                         // closing dossiers
                         try{
-                            FileOutputStream fileOut = new FileOutputStream("../tmp/dossiers.saved");
+                            FileOutputStream fileOut = new FileOutputStream("tmp/dossiers.saved");
                             ObjectOutputStream out = new ObjectOutputStream(fileOut);
                             out.writeObject(dossiers);
                             out.close();
                             fileOut.close();
-                            System.out.println("Serialized data saved in /tmp/dossiers.saved");
+                            System.out.println("Serialized data saved in tmp/dossiers.saved");
                         }catch (IOException ex){
                             System.out.println("An error occured while saving : Dossiers");
                             System.out.println(ex.toString());
@@ -71,13 +71,13 @@ public class Serveur {
     private static HashMap<String, Servant> getServices(){
         HashMap<String, Servant> services = new HashMap<String, Servant>();
 
-        File f = new File("../tmp/dossiers.saved");
+        File f = new File("tmp/dossiers.saved");
         if(f.exists())
         {
             // deserialize the file
             System.out.println("========>Reading serialized dossiers.saved");
             try {
-                FileInputStream fileIn = new FileInputStream("../tmp/dossiers.saved");
+                FileInputStream fileIn = new FileInputStream("tmp/dossiers.saved");
                 ObjectInputStream in = new ObjectInputStream(fileIn);
                 dossiers = (BanqueDossiersImpl) in.readObject();
                 infractions = dossiers.getInfractions();
