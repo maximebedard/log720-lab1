@@ -1,5 +1,5 @@
 export NAMING_SERVICE_HOST=localhost
-export NAMING_SERVICE_PORT=31501
+export NAMING_SERVICE_PORT=31688
 
 export APP_VOITURE=ca.etsmtl.log720.lab1.ClientVoiture
 export APP_VOITURE_CLASSPATH="$(cd $LOG720_LAB1_PROJECT_ROOT/app-voiture/target/classes; pwd)"
