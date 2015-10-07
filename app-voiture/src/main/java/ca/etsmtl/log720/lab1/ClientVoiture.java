@@ -193,10 +193,16 @@ public class ClientVoiture {
         String description = scanner.next();
 
         System.out.print("Gravité : ");
-        int gravite = scanner.nextInt();
+        try {
+            int gravite = scanner.nextInt();
+            banqueReactions.ajouterReaction(description, gravite);
+            System.out.println("La réaction a été ajouté avec succès.");
+        }
+        catch(Exception ex) {
+            System.out.println("La gravité est invalide, veuillez recommencer.");
+            scanner.nextLine();
+        }
 
-        banqueReactions.ajouterReaction(description, gravite);
-        System.out.println("La réaction a été ajouté avec succès.");
     }
 
     private void displayReaction(Reaction reaction) {
