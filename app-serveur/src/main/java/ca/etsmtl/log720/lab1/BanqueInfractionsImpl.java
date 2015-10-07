@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class BanqueInfractionsImpl extends BanqueInfractionsPOA {
+public class BanqueInfractionsImpl extends BanqueInfractionsPOA implements java.io.Serializable{
     private static final int MIN_NIVEAU = 0;
     private static final int MAX_NIVEAU = 100;
 

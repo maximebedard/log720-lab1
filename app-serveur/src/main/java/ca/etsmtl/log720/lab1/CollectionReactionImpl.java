@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class CollectionReactionImpl extends CollectionReactionPOA {
+public class CollectionReactionImpl extends CollectionReactionPOA implements java.io.Serializable{
     private ArrayList<ReactionImpl> _reactions = new ArrayList<ReactionImpl>();
 
     public CollectionReactionImpl(List<ReactionImpl> reactions) { _reactions = new ArrayList<>(reactions); }

@@ -1,6 +1,6 @@
 package ca.etsmtl.log720.lab1;
 
-public class BanqueDossiersImpl extends BanqueDossiersPOA {
+public class BanqueDossiersImpl extends BanqueDossiersPOA implements java.io.Serializable{
     private CollectionDossierImpl _dossiers = new CollectionDossierImpl();
     private BanqueReactionsImpl _reactions;
     private BanqueInfractionsImpl _infractions;
@@ -9,6 +9,15 @@ public class BanqueDossiersImpl extends BanqueDossiersPOA {
         _reactions = reactions;
         _infractions = infractions;
     }
+
+    public void adjustIDs(){
+        DossierImpl.setCounter(_dossiers.size());
+        ReactionImpl.setCounter(_reactions.reactions().size());
+        InfractionImpl.setCounter(_infractions.infractions().size());
+    }
+
+    public BanqueReactionsImpl getReactions() { return _reactions;}
+    public BanqueInfractionsImpl getInfractions() { return _infractions;}
 
     public CollectionDossier dossiers() {
         return RemoteObjectHelper.WithError(_dossiers, CollectionDossierHelper::narrow);

@@ -8,6 +8,7 @@ import com.sun.javafx.css.ParsedValueImpl;
 import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
+import java.util.*;
 
 import java.lang.System;
 import java.util.Scanner;
@@ -58,6 +59,7 @@ public class ClientBureau{
                 switch (choix){
                     case 1 :
                         System.out.println("Ajout d'un dossier ...");
+                        in.nextLine();
                         String nom = getNextString(in, "Veuillez entrer le nom a inscrire au dossier ...");
                         String prenom = getNextString(in, "Veuillez entrer le prenom a inscrire au dossier ...");
                         String noPlaque = getNextString(in,"Veuillez entrer le numero de plaque a inscrire au dossier ...");
@@ -72,10 +74,12 @@ public class ClientBureau{
                         catch (NoPermisExisteDejaException ex)
                         {
                             System.out.println("Ce numero de permis existe deja, veuillez recommencer ...");
+                            //System.out.println(ex.toString());
                         }
                         break;
                     case 2 :
                         System.out.println("Ajout d'une infraction ...");
+                        in.nextLine();
                         String description = getNextString(in, "Veuillez decrire l'infraction ...");
                         int severity = getNextInt(in,"Veuillez entrer le niveau de severitee de l'infraction (0-100)...");
 
@@ -90,19 +94,34 @@ public class ClientBureau{
                         break;
                     case 3 :
                         System.out.println("Visualiser une liste de dossiers ...");
+                        System.out.println("");
+                        System.out.println("");
                         ca.etsmtl.log720.lab1.CollectionDossier dossiers = banqueDossiers.dossiers();
+                        ArrayList<String> printLst = new ArrayList<>();
+                        printLst.add("ID === NOM ======= # PERMIS ===== # PLAQUE");
                         for(int i = 0; i < dossiers.size(); i++) {
                             Dossier ds = dossiers.getDossier(i);
-                            System.out.println("#" + ds.id() + " - " + ds.nom() + " - " + ds.noPermis() + " - " + ds.noPlaque());
+
+                            printLst.add("#" + ds.id() + " - " + ds.nom() + " " + ds.prenom() + " - " + ds.noPermis() + " - " + ds.noPlaque());
                         }
+                        printList(printLst);
+                        System.out.println("");
+                        System.out.println("");
                         break;
                     case 4 :
                         System.out.println("Visualiser une liste d'infractions ...");
                         ca.etsmtl.log720.lab1.CollectionInfraction infractions = banqueInfractions.infractions();
+                        System.out.println("");
+                        System.out.println("");
+                        ArrayList<String> printLst2 = new ArrayList<>();
+                        printLst2.add("Severite === description");
                         for(int i =0;i<infractions.size();i++){
                             Infraction inf = infractions.getInfraction(i);
-                            System.out.println("severity : " + inf.niveau() + ", description : " + inf.description());
+                            printLst2.add("severity : " + inf.niveau() + ", description : " + inf.description());
                         }
+                        printList(printLst2);
+                        System.out.println("");
+                        System.out.println("");
                         break;
                     case 5 :
                         quit = true;
@@ -111,6 +130,13 @@ public class ClientBureau{
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+
+    private static void printList(ArrayList<String> lst){
+        for(int i = 0; i < lst.size();i++){
+            System.out.println(lst.get(i));
         }
     }
 
@@ -139,7 +165,6 @@ public class ClientBureau{
 
     private static String readNextString(Scanner in)
     {
-        in.nextLine();
         String strInput = in.nextLine();
         return strInput;
     }

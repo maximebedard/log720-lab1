@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class CollectionInfractionImpl extends CollectionInfractionPOA {
+public class CollectionInfractionImpl extends CollectionInfractionPOA implements java.io.Serializable{
     private ArrayList<InfractionImpl> _infractions = new ArrayList<InfractionImpl>();
 
     public CollectionInfractionImpl(List<InfractionImpl> infractions) { _infractions = new ArrayList<>(infractions); }

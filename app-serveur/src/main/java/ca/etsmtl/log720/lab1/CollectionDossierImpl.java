@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class CollectionDossierImpl extends CollectionDossierPOA {
+public class CollectionDossierImpl extends CollectionDossierPOA implements java.io.Serializable {
     private ArrayList<DossierImpl> _dossiers;
 
     public CollectionDossierImpl() {

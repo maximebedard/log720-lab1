@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class BanqueReactionsImpl extends BanqueReactionsPOA {
+public class BanqueReactionsImpl extends BanqueReactionsPOA implements java.io.Serializable{
     private CollectionReactionImpl _reactions = new CollectionReactionImpl();
 
     public CollectionReaction reactions() {

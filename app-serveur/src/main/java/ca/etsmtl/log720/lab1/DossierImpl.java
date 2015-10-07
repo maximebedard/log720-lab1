@@ -1,6 +1,6 @@
 package ca.etsmtl.log720.lab1;
 
-public class DossierImpl extends DossierPOA {
+public class DossierImpl extends DossierPOA implements java.io.Serializable {
     private final BanqueInfractionsImpl banqueInfractions;
     private final BanqueReactionsImpl banqueReactions;
     private int _id;
@@ -13,6 +13,9 @@ public class DossierImpl extends DossierPOA {
 
 
     private static int counter = 0;
+    public static void setCounter(int newCounter){
+        counter = newCounter;
+    }
 
     public DossierImpl(BanqueInfractionsImpl _banqueInfractions, BanqueReactionsImpl _banqueReactions, String nom, String prenom, String noPermis, String noPlaque) {
         banqueInfractions = _banqueInfractions;

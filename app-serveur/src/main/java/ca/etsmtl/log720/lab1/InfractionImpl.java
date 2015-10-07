@@ -1,11 +1,15 @@
 package ca.etsmtl.log720.lab1;
 
-public class InfractionImpl extends InfractionPOA {
+public class InfractionImpl extends InfractionPOA implements java.io.Serializable{
     private int _id;
     private String _description;
     private int _niveau;
     private DossierImpl _dossier;
     private static int counter = 0;
+
+    public static void setCounter(int newCounter){
+        counter = newCounter;
+    }
 
     public InfractionImpl(String description, int niveau) {
         _id = counter++;
