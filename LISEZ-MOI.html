@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<h1 id="log720-lab1">log720-lab1</h1>
+<h2 id="prérequis">Prérequis</h2>
+<ul>
+<li>[x] Installer JDK 8</li>
+<li>[x] Installer Maven</li>
+<li>[x] Cloner le repository (https://github.com/maximebedard/log720-lab1)</li>
+</ul>
+<h2 id="installation-mac-os-x">Installation (Mac OS X)</h2>
+<p><strong>dépendances</strong></p>
+<pre class="sh"><code># Vendor Jacorb
+wget http://www.jacorb.org/releases/3.6.1/jacorb-3.6.1-binary.zip -P ~/Downloads
+unzip -q ~/Downloads/jacorb-3.6.1-binary.zip -d ./vendor</code></pre>
+<p><strong>exécution</strong></p>
+<pre class="sh"><code>source ./mac_profile.sh
+mvn clean compile
+
+# Client
+./bin/bureau.sh
+./bin/voiture.sh
+
+# Serveur
+# Enlever les commentaires au lignes 30,31 du fichier config/local/jacorb.properties
+# Commenter la ligne 27 du fichier config/local/jacorb.properties
+./bin/naming.sh
+./bin/serveur.sh</code></pre>
+<h2 id="installation-ubuntu-log720.logti.etsmtl.ca">Installation (Ubuntu log720.logti.etsmtl.ca)</h2>
+<p><strong>dépendances</strong></p>
+<pre class="sh"><code># Vendor Jacorb
+# noop
+
+# Déploiment des fichiers sur le serveur Ubuntu
+rsync -azh ./ AM05130@log720.logti.etsmtl.ca:~/lab1
+ssh AM05130@log720.logti.etsmtl.ca</code></pre>
+<p><strong>exécution</strong></p>
+<pre class="sh"><code># Execution du serveur sur Ubuntu
+source ./ubuntu_profile.sh
+mvn clean compile
+./bin/naming.sh
+./bin/serveur.sh</code></pre>
+<h2 id="installation-windows">Installation (Windows)</h2>
+<p><strong>dépendances</strong></p>
+<pre class="powershell"><code>Invoke-WebRequest &quot;http://www.jacorb.org/releases/3.6.1/jacorb-3.6.1-binary.zip&quot; -OutFile ~\Downloads
+# TODO unzip</code></pre>
+<p><strong>exécution</strong></p>
+<pre class="powershell"><code>call windows_profile.bat
+mvn clean compile
+
+# Client
+.\bin\bureau.bat
+.\bin\voiture.bat
+
+# Serveur
+# Enlever les commentaires au lignes 30,31 du fichier config/local/jacorb.properties
+# Commenter la ligne 27 du fichier config/local/jacorb.properties
+.\bin\naming.bat
+.\bin\serveur.bat</code></pre>
+</body>
+</html>
