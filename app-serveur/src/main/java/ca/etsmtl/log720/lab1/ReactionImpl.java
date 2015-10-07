@@ -28,6 +28,6 @@ public class ReactionImpl extends ReactionPOA {
     public DossierImpl dossier() { return _dossier; }
 
     public String _toString() {
-        return String.format("%d - %d - %s", id(), niveau(), description());
+        return String.format("(id:%d)(niveau:%d) %s", id(), niveau(), description());
     }
 }

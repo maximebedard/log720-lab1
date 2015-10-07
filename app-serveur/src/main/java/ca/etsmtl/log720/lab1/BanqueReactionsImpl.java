@@ -1,5 +1,9 @@
 package ca.etsmtl.log720.lab1;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 public class BanqueReactionsImpl extends BanqueReactionsPOA {
     private CollectionReactionImpl _reactions = new CollectionReactionImpl();
 
@@ -12,8 +16,10 @@ public class BanqueReactionsImpl extends BanqueReactionsPOA {
     }
 
     public CollectionReaction trouverReactionsParDossier(Dossier myDossier) {
-        return RemoteObjectHelper.WithError(new CollectionReactionImpl(_reactions.trouverReactionsPar(r ->
-                        r.dossier() != null && r.dossier().id() == myDossier.id())),
+        List<Integer> reactionIds = IntStream.of(myDossier.getListeReaction()).boxed().collect(Collectors.toList());
+
+        return RemoteObjectHelper.WithError(new CollectionReactionImpl(
+                        _reactions.trouverReactionsPar((r) -> reactionIds.contains(r.id()))),
                 CollectionReactionHelper::narrow);
     }
 

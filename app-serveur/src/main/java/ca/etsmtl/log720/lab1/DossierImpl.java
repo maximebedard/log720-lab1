@@ -11,6 +11,7 @@ public class DossierImpl extends DossierPOA {
     private CollectionInfractionImpl _infractions = new CollectionInfractionImpl();
     private CollectionReactionImpl _reactions = new CollectionReactionImpl();
 
+
     private static int counter = 0;
 
     public DossierImpl(BanqueInfractionsImpl _banqueInfractions, BanqueReactionsImpl _banqueReactions, String nom, String prenom, String noPermis, String noPlaque) {

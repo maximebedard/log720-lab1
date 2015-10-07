@@ -1,6 +1,10 @@
 package ca.etsmtl.log720.lab1;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class BanqueInfractionsImpl extends BanqueInfractionsPOA {
     private static final int MIN_NIVEAU = 0;
@@ -13,8 +17,10 @@ public class BanqueInfractionsImpl extends BanqueInfractionsPOA {
     }
 
     public CollectionInfraction trouverInfractionsParDossier(Dossier mydossier) {
-        return RemoteObjectHelper.WithError(new CollectionInfractionImpl(_infractions.trouverInfractionsPar(i ->
-                        i.dossier() != null && i.dossier().id() == mydossier.id())),
+        List<Integer> infractionsIds = IntStream.of(mydossier.getListeInfraction()).boxed().collect(Collectors.toList());
+
+        return RemoteObjectHelper.WithError(new CollectionInfractionImpl(
+                _infractions.trouverInfractionsPar((i) -> infractionsIds.contains(i.id()))),
                 CollectionInfractionHelper::narrow);
     }
 

@@ -27,7 +27,11 @@ public class InfractionImpl extends InfractionPOA {
 
     public DossierImpl dossier() { return _dossier; }
 
+    public void setDossier(DossierImpl dossier){
+        _dossier = dossier;
+    }
+
     public String _toString() {
-        return String.format("%d - %d - %s", id(), niveau(), description());
+        return String.format("(id:%d)(niveau:%d) %s", id(), niveau(), description());
     }
 }
