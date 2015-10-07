@@ -180,11 +180,23 @@ public class ClientVoiture {
                 actions.put(id, reaction._toString(), () -> displayReaction(reaction));
             }
 
+            actions.put("ajouter", "Ajouter une nouvelle réaction", this::ajouterReaction);
             actions.put("retour", "Retour au menu précédent", () -> running[0] = false);
             actions.put("quitter", "Quitter l'application", this::quitter);
 
             actions.prompt(formatSectionTitle("liste des reactions"));
         } while(running[0]);
+    }
+
+    private void ajouterReaction() {
+        System.out.print("Description de la réaction : ");
+        String description = scanner.next();
+
+        System.out.print("Gravité : ");
+        int gravite = scanner.nextInt();
+
+        banqueReactions.ajouterReaction(description, gravite);
+        System.out.println("La réaction a été ajouté avec succès.");
     }
 
     private void displayReaction(Reaction reaction) {
